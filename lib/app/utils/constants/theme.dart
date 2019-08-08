@@ -42,6 +42,27 @@ class CustomTheme {
     ],
   );
 
+  TextStyle appBarText = TextStyle(
+    fontSize: 20.0,
+    color: Colors.black,
+    fontFamily: 'Merriweather',
+    fontWeight: FontWeight.w600,
+    shadows: <Shadow>[
+      Shadow(
+        color: Colors.grey,
+        blurRadius: 3.0,
+        offset: Offset(0.0, 2.0),
+      )
+    ],
+  );
+
+  TextStyle subtitle = TextStyle(
+    fontSize: 28.0,
+    color: Colors.black,
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.w400,
+  );
+
   TextStyle pageDescription = TextStyle(
     fontSize: 16.0,
     color: Colors.grey,

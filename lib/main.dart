@@ -64,7 +64,6 @@ class Authorize extends StatelessWidget {
             return SplashPage();
           case Status.Unauthenticated:
           case Status.Authenticating:
-            return LoginPage();
           case Status.Authenticated:
             return IndexPage();
         }

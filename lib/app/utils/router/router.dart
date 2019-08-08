@@ -33,7 +33,7 @@ class Router {
       case Pages.register:
         return _buildSlideRightRoute(RegisterPage());
       case Pages.forgotPassword:
-        return _buildSlideRightRoute(ForgotPasswordPage());
+        return _buildSlideBottomRoute(ForgotPasswordPage());
       default:
         return null;
     }
@@ -51,7 +51,7 @@ class Router {
     return new SlideTopRoute(page: page);
   }
 
-  // SlideBottomRoute _buildSlideBottomRoute(Widget page) {
-  //   return new SlideBottomRoute(page: page);
-  // }
+  SlideBottomRoute _buildSlideBottomRoute(Widget page) {
+    return new SlideBottomRoute(page: page);
+  }
 }

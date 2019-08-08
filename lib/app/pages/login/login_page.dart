@@ -15,7 +15,8 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage>
+    with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
 
@@ -24,28 +25,63 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _obscurePassword = true;
 
+  AnimationController _controller;
+  Animation<double> _animationWelcome;
+  Animation<double> _animationBean;
+  Animation<double> _animationCoffee;
+  Animation<double> _animationButton;
+
   @override
   void initState() {
     super.initState();
 
+    _controller = AnimationController(
+      duration: Duration(seconds: 1),
+      vsync: this,
+    )
+      ..addListener(() {
+        setState(() {});
+      })
+      ..forward();
+
+    _animationWelcome = Tween<double>(
+      begin: -200,
+      end: 220.0,
+    ).animate(new CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInCubic,
+    ));
+
+    _animationBean = Tween<double>(
+      begin: -500.0,
+      end: 0.0,
+    ).animate(new CurvedAnimation(
+      parent: _controller,
+      curve: Curves.fastOutSlowIn,
+    ));
+
+    _animationCoffee = Tween<double>(
+      begin: -350.0,
+      end: -40.0,
+    ).animate(new CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInCubic,
+    ));
+
+    _animationButton = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(new CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInCubic,
+    ));
+
     _obscurePassword = true;
-
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark,
-          systemNavigationBarColor: Colors.white,
-          systemNavigationBarIconBrightness: Brightness.dark),
-    );
-
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     super.dispose();
   }
 
@@ -53,19 +89,35 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        leading: GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
-          child: Icon(Icons.arrow_back_ios),
-        ),
-      ),
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
+          _buildAppBar(context),
           _pageTitle(context),
           _buildForm(context),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAppBar(BuildContext context) {
+    return Positioned(
+      top: 80.0,
+      left: 20.0,
+      right: 0.0,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          GestureDetector(
+            onTap: () {
+              _controller.reverse();
+
+              Future.delayed(Duration(milliseconds: 800), () {
+                Navigator.of(context).pop();
+              });
+            },
+            child: Icon(Icons.arrow_back_ios),
+          ),
         ],
       ),
     );
@@ -76,59 +128,44 @@ class _LoginPageState extends State<LoginPage> {
       height: MediaQuery.of(context).size.height / 4,
       child: Stack(
         children: <Widget>[
-          Animator(
-            tween: Tween<double>(begin: -250, end: 0),
-            duration: Duration(milliseconds: 800),
-            curve: Curves.easeOut,
-            builder: (anim) => Positioned(
-              top: anim.value,
-              right: -70.0,
-              child: Container(
-                width: MediaQuery.of(context).size.width / 1.5,
-                child: Image(
-                  image: AssetImage(Resources.coffee_clipart),
-                  fit: BoxFit.cover,
-                ),
+          Positioned(
+            top: _animationBean.value,
+            right: -50.0,
+            child: Container(
+              width: MediaQuery.of(context).size.width / 1.7,
+              child: Image(
+                image: AssetImage(Resources.beans_clipart),
+                fit: BoxFit.cover,
               ),
             ),
           ),
-          Animator(
-            tween: Tween<double>(begin: -200, end: 34.0),
-            duration: Duration(milliseconds: 800),
-            curve: Curves.easeOut,
-            builder: (anim) => Positioned(
-              top: 80.0,
-              left: anim.value,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'Welcome',
-                    style: CustomTheme().pageTitle,
-                  ),
-                  Text(
-                    'Sign in to continue',
-                    style: CustomTheme().pageDescription,
-                  ),
-                ],
+          Positioned(
+            bottom: 20.0,
+            right: _animationCoffee.value,
+            child: Container(
+              width: MediaQuery.of(context).size.width / 1.7,
+              child: Image(
+                image: AssetImage(Resources.coffee_clipart),
+                fit: BoxFit.cover,
               ),
             ),
           ),
-          Animator(
-            tween: Tween<double>(begin: -150, end: 0.0),
-            duration: Duration(milliseconds: 300),
-            curve: Curves.easeOut,
-            builder: (anim) => Positioned(
-              bottom: anim.value,
-              child: Container(
-                height: MediaQuery.of(context).size.height / 4,
-                width: MediaQuery.of(context).size.width,
-                child: Image(
-                  image: AssetImage(Resources.beans_clipart),
-                  fit: BoxFit.cover,
+          Positioned(
+            top: _animationWelcome.value,
+            left: 34.0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Welcome',
+                  style: CustomTheme().pageTitle,
                 ),
-              ),
+                Text(
+                  'Sign in to continue',
+                  style: CustomTheme().pageDescription,
+                ),
+              ],
             ),
           ),
         ],
@@ -138,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildForm(BuildContext context) {
     return Positioned(
-      top: MediaQuery.of(context).size.height / 4,
+      top: MediaQuery.of(context).size.height / 4 + 140,
       left: 0.0,
       right: 0.0,
       child: Form(
@@ -237,54 +274,57 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _signInButton() {
-    return Center(
-      child: Container(
-        margin: EdgeInsets.only(top: 60.0, bottom: 15.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25.0),
-          color: CustomColors.teal,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 5.0,
-              offset: Offset(0.0, 3.0),
-            ),
-          ],
-        ),
-        child: MaterialButton(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 100.0,
-            ),
-            child: Provider.of<AuthRepository>(context).status ==
-                    Status.Authenticating
-                ? Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 14.0),
-                    child: SizedBox(
-                      height: 25.0,
-                      width: 25.0,
-                      child: CircularProgressIndicator(
-                        backgroundColor: Colors.white,
-                        strokeWidth: 2.5,
-                      ),
-                    ),
-                  )
-                : Text(
-                    'Login',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 22.0,
-                        fontFamily: 'Oswald',
-                        letterSpacing: 1.5,
-                        fontWeight: FontWeight.w600),
-                  ),
+    return Opacity(
+      opacity: _animationButton.value,
+      child: Center(
+        child: Container(
+          margin: EdgeInsets.only(top: 60.0, bottom: 15.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25.0),
+            color: CustomColors.teal,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                blurRadius: 5.0,
+                offset: Offset(0.0, 3.0),
+              ),
+            ],
           ),
-          onPressed: () =>
-              Provider.of<AuthRepository>(context).signInWithEmailAndPassword(
-            emailController.text,
-            passwordController.text,
+          child: MaterialButton(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 100.0,
+              ),
+              child: Provider.of<AuthRepository>(context).status ==
+                      Status.Authenticating
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 14.0),
+                      child: SizedBox(
+                        height: 25.0,
+                        width: 25.0,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          strokeWidth: 2.5,
+                        ),
+                      ),
+                    )
+                  : Text(
+                      'Login',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 22.0,
+                          fontFamily: 'Oswald',
+                          letterSpacing: 1.5,
+                          fontWeight: FontWeight.w600),
+                    ),
+            ),
+            onPressed: () =>
+                Provider.of<AuthRepository>(context).signInWithEmailAndPassword(
+              emailController.text,
+              passwordController.text,
+            ),
           ),
         ),
       ),
