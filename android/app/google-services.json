@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "555908800783",
+    "firebase_url": "https://frank-and-joes.firebaseio.com",
+    "project_id": "frank-and-joes",
+    "storage_bucket": "frank-and-joes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555908800783:android:bcf48148037c24ad",
+        "android_client_info": {
+          "package_name": "com.example.frank_and_joes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "555908800783-7bjl9nl0gbka64lv96vq3jvflo9rimnv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.frank_and_joes",
+            "certificate_hash": "75f5df6bb2176b4172f2e8531c9d8cd5f00471d1"
+          }
+        },
+        {
+          "client_id": "555908800783-nht2con76ik7aja494r5r1r8d32mi1p1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzdGqoBCsIdwvxjE2Y6KbE5ECegN9Aw_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "555908800783-nht2con76ik7aja494r5r1r8d32mi1p1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
