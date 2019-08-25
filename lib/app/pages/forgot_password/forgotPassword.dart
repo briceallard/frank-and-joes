@@ -36,6 +36,39 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       ),
       body: Stack(
         fit: StackFit.expand,
+        children: <Widget>[
+          Positioned(
+            top: 20.0,
+            left: 20.0,
+            child: Text('OOPS!', style: CustomTheme().pageTitle),
+          ),
+          Positioned(
+            top: 70.0,
+            left: 20.0,
+            child:
+                Text('Forgot Password!', style: CustomTheme().pageDescription),
+          ),
+          Positioned(
+            top: 100.0,
+            left: 0.0,
+            right: 0.0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 60.0,
+                  ),
+                  child: Text(
+                    'Enter your registered email address and we will send you a new password',
+                    style: CustomTheme().pageDescription,
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

@@ -231,6 +231,7 @@ class _LoginPageState extends State<LoginPage>
           width: MediaQuery.of(context).size.width * .70,
           child: TextFormField(
             controller: passwordController,
+            obscureText: _obscurePassword,
             decoration: InputDecoration(
               isDense: true,
               labelText: 'Password',

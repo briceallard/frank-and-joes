@@ -52,12 +52,12 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'Welcome back',
-                    style: CustomTheme().subtitle,
+                    'Monica'.toUpperCase(),
+                    style: CustomTheme().pageTitle,
                   ),
                   Text(
-                    'Brice'.toUpperCase(),
-                    style: CustomTheme().pageTitle,
+                    'Welcome back',
+                    style: CustomTheme().pageDescription,
                   ),
                 ],
               ),
